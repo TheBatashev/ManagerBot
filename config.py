@@ -16,6 +16,9 @@ class Settings :
         self.REDIS_PORT = int(os.getenv('REDIS_PORT'))
         self.REDIS_EXPIRE = int(os.getenv('REDIS_EXPIRE'))
 
+        self.EMOJIS = ['🟦','🟨','🟪','🟩','🟥','🟧','🟫','⬜️','⬛️']
+
+
     def __repr__(self):
         pass
 

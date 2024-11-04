@@ -5,7 +5,7 @@ from sqlalchemy import select, update, ScalarResult, func, case
 from typing import Union, List
 from datetime import datetime, timedelta
 
-from .models import User, Level, Category
+from .models import User
 
 from .crud import Database
 

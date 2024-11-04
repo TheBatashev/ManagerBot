@@ -20,7 +20,7 @@ BaseModel = declarative_base()
 #     )
 
 def create_engine() -> AsyncEngine:
-    return create_async_engine(url='sqlite+aiosqlite:///db.sqlite', echo=False, pool_pre_ping=True)
+    return create_async_engine(url='sqlite+aiosqlite:///db.sqlite3', echo=False, pool_pre_ping=True)
 
 
 def get_session_maker(engine: AsyncEngine) -> async_sessionmaker[Union[AsyncSession, Any]]:

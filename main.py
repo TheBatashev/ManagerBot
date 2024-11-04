@@ -3,11 +3,11 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage, Redis
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.client.default import DefaultBotProperties
 
 from sqlalchemy.ext.asyncio import AsyncSession
-
 
 from bot import DbSessionMiddleware, user_router, admin_router
 from database import get_session_maker, create_engine, init_models
@@ -19,10 +19,14 @@ async def on_shutdown(dp: Dispatcher):
     session: AsyncSession = dp.update.middleware['session']
 
 
+redis = Redis(host='localhost', port=6379, db=0)
+
+bot = Bot(token=settings.BOT_TOKEN  , default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+
 
 async def start():
-    bot = Bot(token=settings.BOT_TOKEN  , default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-    dp = Dispatcher(storage=MemoryStorage())
+    storage = RedisStorage(redis)
+    dp = Dispatcher(storage=storage)
 
     dp.include_routers(
         admin_router, user_router
@@ -39,7 +43,7 @@ async def start():
     print(me.username)
 
     try:
-        # await init_models()
+        await init_models()
         # run_check_exchanges_status(session_maker, bot)
         await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(bot)
