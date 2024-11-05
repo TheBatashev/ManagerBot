@@ -25,7 +25,7 @@ async def start(message: Message, session : AsyncSession, bot : Bot):
     await crud.get_or_create_user(session, message.from_user.id, message.from_user.username)
         # await redis_cache.set(f'{user_id}', user_id, 60*60*24)
         
-    await message.answer(f"<b>🔎 Ассаламу алейкум.")
+    await message.answer(f"<b>🔎 Здравствуй. Это твой личный охранник Guard Bot")
 
 # F.chat.type.in_(['group', 'supergroup']
 # ChatTypeFilter(['group', 'supergroup', 'private']
@@ -37,7 +37,7 @@ async def join_request(message: ChatMemberUpdated, session : AsyncSession, state
         emoji = random.choice(settings.EMOJIS)
         get_photo_url = await get_image_captcha(emoji)
         photo = FSInputFile(get_photo_url)
-        msg = await bot.send_photo(chat_id=message.chat.id, photo=photo ,caption=f"<b>🔎 Ассаламу алейкум. Ты попал в чат {chat_name}\n\nПожалуйста, пройди капчу ( у тебя 15 секунд )</b>", reply_markup=await create_captcha_kb(settings.EMOJIS, emoji, user_id))
+        msg = await bot.send_photo(chat_id=message.chat.id, photo=photo ,caption=f"<b>🔎 Здравствуй. Ты попал в чат {chat_name}\n\nПожалуйста, пройди капчу ( у тебя 15 секунд )</b>", reply_markup=await create_captcha_kb(settings.EMOJIS, emoji, user_id))
         await redis_cache.set(f'{user_id}_captcha', 'active', 60*60)
         asyncio.create_task(captcha_worker(bot, redis_cache, f'{user_id}_captcha', message.chat.id, user_id, msg.message_id))
 
