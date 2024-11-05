@@ -25,7 +25,7 @@ async def start(message: Message, session : AsyncSession, bot : Bot):
     await crud.get_or_create_user(session, message.from_user.id, message.from_user.username)
         # await redis_cache.set(f'{user_id}', user_id, 60*60*24)
         
-    await message.answer(f"<b>🔎 Здравствуй. Это твой личный охранник Guard Bot")
+    await message.answer(f"<b>🔎 Здравствуй. Это твой личный охранник Guard Bot</b>")
 
 # F.chat.type.in_(['group', 'supergroup']
 # ChatTypeFilter(['group', 'supergroup', 'private']
